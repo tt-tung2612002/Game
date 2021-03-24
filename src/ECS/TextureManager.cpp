@@ -1,5 +1,5 @@
+#pragma once
 #include "TextureManager.hpp"
-
 SDL_Texture *TextureManager::loadTexture(const char *texture)
 {
     SDL_Surface *tempSurface = IMG_Load(texture);

@@ -1,14 +1,13 @@
 #pragma once
-#include "Components.hpp"
-#include "../Vector2D.hpp"
 #include "../Vector2D.cpp"
+
 class TransformComponent : public Component
 {
 public:
     Vector2D position;
     Vector2D velocity;
-    int height;
-    int width;
+    double height;
+    double width;
     int scale = 1;
     int speed = 3;
 
@@ -22,7 +21,7 @@ public:
         position.x = x_;
         position.y = y_;
     }
-    TransformComponent(double x, double y, int h, int w, int sc)
+    TransformComponent(double x, double y, double h, double w, double sc)
     {
         position.x = x;
         position.y = y;

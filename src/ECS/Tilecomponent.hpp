@@ -3,40 +3,44 @@
 #include "ECS.hpp"
 #include "TransformComponent.hpp"
 #include "SDL2/SDL.h"
-
+// #include "SpriteComponent.hpp"
 class TileComponent : public Component
 {
 public:
+    enum class TileType{water,dirt,grass};
     TransformComponent *transform;
-    SpriteComponent *sprite;
+    // SpriteComponent *sprite;
     SDL_Rect tileRect;
-    int tileID;
-    char *path;
+    const char *path;
+    TileType tileID;
     TileComponent() = default;
-    TileComponent(int x, int y, int w, int h, int id)
+    TileComponent(int x, int y, int w, int h,TileType id)
     {
         tileRect.x = x;
         tileRect.y = y;
         tileRect.w = w;
         tileRect.h = h;
         tileID = id;
-        switch (tileID)
+        switch (id)
         {
-        case 0:
-            path = " ";
-        case 1:
-            path = " ";
-        case 2:
-            path = " ";
+        case TileType::water:
+            path = "water.png";
+            break;
+        case TileType::dirt:
+            path = "dirt.png";
+            break;
+        case TileType::grass:
+            path = "grass.png";
+            break;
         default:
             break;
         }
     }
     void init() override
     {
-        entity->addComponent<TransformComponent>(tileRect.x, tileRect.y, tileRect.w, tileRect.h, 1);
+        entity->addComponent<TransformComponent>((double)tileRect.x,(double) tileRect.y, tileRect.w, tileRect.h, 1);
         transform = &entity->getComponent<TransformComponent>();
-        entity->addComponent<SpriteComponent>(path);
-        sprite = &entity->getComponent<SpriteComponent>();
+//         // entity->addComponent<SpriteComponent>(path);
+//         // sprite = &entity->getComponent<SpriteComponent>();
     }
 };

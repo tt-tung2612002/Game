@@ -1,1 +1,0 @@
-"D:\hasher.exe"

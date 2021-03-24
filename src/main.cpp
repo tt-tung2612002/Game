@@ -1,5 +1,6 @@
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_image.h"
+// #include "application.hpp"
 #include "application.cpp"
 int main(int argc, char *argv[])
 {
@@ -8,7 +9,7 @@ int main(int argc, char *argv[])
     Uint32 frameStart;
     int frameTime;
     Application *game = new Application();
-    game->init("hello", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 900, 600, false);
+    game->init("hello", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,900,600, false);
     while (game->running())
     {
         frameStart = SDL_GetTicks();

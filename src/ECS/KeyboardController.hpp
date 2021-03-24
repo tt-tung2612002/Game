@@ -1,8 +1,8 @@
 #pragma once
-
 #include "../application.hpp"
+
 #include "ECS.hpp"
-#include "Components.hpp"
+#include "TransformComponent.hpp"
 
 class KeyboardController : public Component
 {

@@ -1,8 +1,8 @@
-#include "Components.hpp"
+#pragma once
+#include "ECS.hpp"
+#include "TransformComponent.hpp"
 #include "SDL2/SDL.h"
 #include "TextureManager.cpp"
-#include "../Vector2D.hpp"
-
 class SpriteComponent : public Component
 {
 private:
@@ -36,8 +36,16 @@ public:
     {
         destRect.x = (int)transform->position.x;
         destRect.y = (int)transform->position.y;
-        destRect.w = transform->width * transform->scale;
-        destRect.h = transform->height * transform->scale;
+        if (transform->width > 500 || transform->height > 500)
+        {
+            destRect.w = (transform->width) / 30 * transform->scale;
+            destRect.h = (transform->height) / 30 * transform->scale;
+        }
+        else
+        {
+            destRect.w = transform->width * transform->scale;
+            destRect.h = transform->height * transform->scale;
+        }
     }
     void draw() override
     {

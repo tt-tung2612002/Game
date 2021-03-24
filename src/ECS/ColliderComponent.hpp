@@ -2,14 +2,15 @@
 
 #include <string>
 #include "SDL2/sdl.h"
-#include "Components.hpp"
+#include "ECS.hpp"
+
 class ColliderComponent : public Component
 {
 public:
     SDL_Rect collider;
     std :: string tag;
     TransformComponent* transform;
-    ColliderComponent(const char* s){
+    ColliderComponent(std:: string s){
         tag = s;
     }
     void init() override{

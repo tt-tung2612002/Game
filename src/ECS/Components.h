@@ -5,4 +5,5 @@
 #include "TextureManager.hpp"
 #include "KeyboardController.hpp"
 #include "ColliderComponent.hpp"
-#include "Collision.hpp"
+#include "Collision.cpp"
+#include "TileComponent.hpp"
