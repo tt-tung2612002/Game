@@ -23,6 +23,12 @@ public:
         position.x = x_;
         position.y = y_;
     }
+    TransformComponent(int sc)
+    {
+        position.x = 400;
+        position.y = 320;
+        scale = sc;
+    }
     TransformComponent(double x, double y, double h, double w, double sc)
     {
         position.x = x;

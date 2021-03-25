@@ -1,10 +1,7 @@
 #ifndef _TILECOMPONENT_HPP_
 #define _TILECOMPONENT_HPP_
-// #include "SpriteComponent.hpp"
 #include "ECS.hpp"
 #include "TransformComponent.hpp"
-// #include "SDL2/SDL.h"
-// #include "SpriteComponent.hpp"
 class TileComponent : public Component
 {
 public:

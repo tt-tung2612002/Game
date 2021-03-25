@@ -8,6 +8,7 @@
 #include <vector>
 #include "ECS/TileComponent.hpp"
 #include "ECS/ColliderComponent.hpp"
+#include "ECS/ECS.cpp"
 class Game
 {
 public:
@@ -22,12 +23,14 @@ public:
     void render();
     void clean();
     static void AddTile(TileComponent::TileType id,int x,int y);
+    static bool isRunning;
+    static SDL_Rect camera;
     bool running()
     {
         return isRunning;
     }
 private:
-    bool isRunning;
+    int cnt =0;
     SDL_Window *window;
     
 };

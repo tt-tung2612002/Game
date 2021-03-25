@@ -7,11 +7,16 @@
 #include "ECS/NewComponent.h"
 #include "map.cpp"
 
-SDL_Renderer *Game :: renderer = nullptr;
+SDL_Renderer *Game ::renderer = nullptr;
 SDL_Event Game::event;
+SDL_Rect Game::camera = {0, 0, 800, 640};
 std::vector<ColliderComponent *> Game::colliders;
 auto &Player(manager.addEntity());
 auto &tile0(manager.addEntity());
+auto &tiles(manager.getGroup(groupMap));
+auto &players(manager.getGroup(groupPlayers));
+auto &enemies(manager.getGroup(groupEnemies));
+bool Game::isRunning = false;
 Game ::Game()
 {
 }
@@ -28,15 +33,13 @@ void Game ::init(const char *title, int xpos, int ypos, int width, int height, b
     renderer = SDL_CreateRenderer(window, -1, 0);
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     isRunning = true;
-    Player.addComponent<TransformComponent>(0, 0, 32, 32, 1);
-    Player.addComponent<SpriteComponent>("player.png");
-    Player.addComponent<KeyboardController>();
-    Player.addComponent<ColliderComponent>("player");
-    // tile0.addComponent<TileComponent>(100, 100, 32, 32, TileComponent::TileType::water);
     Map *map = new Map();
-    // tile0.addComponent<SpriteComponent>(TileComponent::path);
-    tile0.addComponent<NewComponent>(100,100,32,32,NewComponent::TileType:: water);
-    map->loadMap("lvl1.map",16,16);
+    map->loadMap("map.map", 25, 20);
+    Player.addComponent<TransformComponent>(0, 0, 32, 32, 1);
+    Player.addComponent<SpriteComponent>("player_anims.png", true);
+    Player.addComponent<KeyboardController>();
+    Player.addComponent<ColliderComponent>("player_idle");
+    Player.addGroup(groupPlayers);
 }
 void Game ::handleEvents()
 {
@@ -56,18 +59,32 @@ void Game ::update()
 {
     manager.refresh();
     manager.update();
-    for (auto cc : colliders)
-    {
-        if (Collision::AABB(Player.getComponent<ColliderComponent>(), *cc) && cc->tag == "wall")
-        {
-            Player.getComponent<TransformComponent>().velocity * -1;
-        }
-    }
+    camera.x = Player.getComponent<TransformComponent>().position.x - 400;
+    camera.y = Player.getComponent<TransformComponent>().position.y - 320;
+    if (camera.x < 0)
+        camera.x = 0;
+    if (camera.y < 0)
+        camera.y = 0;
+    if (camera.x > camera.w)
+        camera.x = camera.w;
+    if (camera.y > camera.h)
+        camera.y = camera.h;
 }
 void Game ::render()
 {
     SDL_RenderClear(renderer);
-    manager.draw();
+    for (auto &t : tiles)
+    {
+        t->draw();
+    }
+    for (auto &p : players)
+    {
+        p->draw();
+    }
+    for (auto &e : enemies)
+    {
+        e->draw();
+    }
     SDL_RenderPresent(renderer);
 }
 void Game ::clean()

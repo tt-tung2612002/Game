@@ -1,44 +1,38 @@
-#pragma once 
+#pragma once
 
 #include "SpriteComponent.hpp"
 #include "TransformComponent.hpp"
 class NewComponent : public Component
 {
 public:
-    enum class TileType{blank,water,dirt,grass};
-    TransformComponent *transform;
-    SpriteComponent *sprite;
-    SDL_Rect tileRect;
-    const char* path;
-    TileType tileID;
-    NewComponent() = default;
-    NewComponent(int x, int y, int w, int h,TileType id)
+    SDL_Texture *texture;
+    SDL_Rect srcRect, destRect;
+    Vector2D position;
+    NewComponent()
     {
-        tileRect.x = x;
-        tileRect.y = y;
-        tileRect.w = w;
-        tileRect.h = h;
-        tileID = id;
-        switch (id)
-        {
-        case TileType::water:
-            path = "water.png";
-            break;
-        case TileType::dirt:
-            path = "dirt.png";
-            break;
-        case TileType::grass:
-            path = "grass.png";
-            break;
-        default:
-            break;
-        }
+        SDL_DestroyTexture(texture);
     }
-    void init() override
+    NewComponent(int srcX, int srcY, int xpos, int ypos, const char *path)
     {
-        entity->addComponent<TransformComponent>((double)tileRect.x,(double) tileRect.y, tileRect.w, tileRect.h, 1);
-        transform = &entity->getComponent<TransformComponent>();
-        entity->addComponent<SpriteComponent>(path);
-        sprite = &entity->getComponent<SpriteComponent>();
+        SDL_Surface *tempSurface = IMG_Load(path);
+        texture = SDL_CreateTextureFromSurface(Game::renderer, tempSurface);
+        SDL_FreeSurface(tempSurface);
+        position.x = xpos;
+        position.y = ypos;
+        srcRect.x = srcX;
+        srcRect.y = srcY;
+        srcRect.w = srcRect.h = 32;
+        destRect.x = xpos;
+        destRect.y = ypos;
+        destRect.w = destRect.h = 64;   
+    }
+    void update() override
+    {
+        destRect.x = position.x - Game::camera.x;
+        destRect.y = position.y - Game::camera.y;
+    }
+    void draw() override
+    {
+        SDL_RenderCopyEx(Game::renderer, texture, &srcRect, &destRect, NULL, NULL, SDL_FLIP_NONE);
     }
 };
