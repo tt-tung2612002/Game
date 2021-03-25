@@ -5,7 +5,7 @@
 class NewComponent : public Component
 {
 public:
-    enum class TileType{water,dirt,grass};
+    enum class TileType{blank,water,dirt,grass};
     TransformComponent *transform;
     SpriteComponent *sprite;
     SDL_Rect tileRect;

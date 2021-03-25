@@ -1,10 +1,12 @@
+//tung yeu ngoc linh rat la nhieu luon <3
 #pragma once
 #ifndef _GAME_CPP_
 #define _GAME_CPP_
 #include "game.hpp"
 #include "ECS/Components.h"
 #include "ECS/NewComponent.h"
-Manager manager;
+#include "map.cpp"
+
 SDL_Renderer *Game :: renderer = nullptr;
 SDL_Event Game::event;
 std::vector<ColliderComponent *> Game::colliders;
@@ -31,8 +33,10 @@ void Game ::init(const char *title, int xpos, int ypos, int width, int height, b
     Player.addComponent<KeyboardController>();
     Player.addComponent<ColliderComponent>("player");
     // tile0.addComponent<TileComponent>(100, 100, 32, 32, TileComponent::TileType::water);
+    Map *map = new Map();
     // tile0.addComponent<SpriteComponent>(TileComponent::path);
     tile0.addComponent<NewComponent>(100,100,32,32,NewComponent::TileType:: water);
+    map->loadMap("lvl1.map",16,16);
 }
 void Game ::handleEvents()
 {
@@ -76,5 +80,6 @@ void Game::AddTile(TileComponent::TileType id, int x, int y)
 {
     auto &tile(manager.addEntity());
     tile.addComponent<TileComponent>(x, y, 32, 32, id);
+    // tile.addComponent<NewComponent>(100,100,32,32,NewComponent::TileType:: id);
 }
 #endif
