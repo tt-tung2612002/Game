@@ -1,6 +1,5 @@
-#pragma once
-#include "../application.hpp"
-
+#ifndef _KEYBOARDCONTROLLER_HPP_
+#define _KEYBOARDCONTROLLER_HPP_
 #include "ECS.hpp"
 #include "TransformComponent.hpp"
 
@@ -14,9 +13,9 @@ public:
     }
     void update() override
     {
-        if (Application ::event.type == SDL_KEYDOWN)
+        if (Game ::event.type == SDL_KEYDOWN)
         {
-            switch (Application::event.key.keysym.sym)
+            switch (Game::event.key.keysym.sym)
             {
             case SDLK_w:
                 transform->velocity.y = -1;
@@ -34,9 +33,9 @@ public:
                 break;
             }
         }
-        if (Application ::event.type == SDL_KEYUP)
+        if (Game ::event.type == SDL_KEYUP)
         {
-            switch (Application::event.key.keysym.sym)
+            switch (Game::event.key.keysym.sym)
             {
             case SDLK_w:
                 transform->velocity.y = 0;
@@ -56,3 +55,4 @@ public:
         }
     }
 };
+#endif

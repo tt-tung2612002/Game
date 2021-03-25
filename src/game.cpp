@@ -1,19 +1,22 @@
 #pragma once
-#include "application.hpp"
+#ifndef _GAME_CPP_
+#define _GAME_CPP_
+#include "game.hpp"
 #include "ECS/Components.h"
-
+#include "ECS/NewComponent.h"
 Manager manager;
-SDL_Renderer *Application::renderer = nullptr;
-SDL_Event Application::event;
-std::vector<ColliderComponent *> Application::colliders;
+SDL_Renderer *Game :: renderer = nullptr;
+SDL_Event Game::event;
+std::vector<ColliderComponent *> Game::colliders;
 auto &Player(manager.addEntity());
-Application ::Application()
+auto &tile0(manager.addEntity());
+Game ::Game()
 {
 }
-Application ::~Application()
+Game ::~Game()
 {
 }
-void Application ::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen)
+void Game ::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
     int flags = 0;
     if (fullscreen)
@@ -27,22 +30,25 @@ void Application ::init(const char *title, int xpos, int ypos, int width, int he
     Player.addComponent<SpriteComponent>("player.png");
     Player.addComponent<KeyboardController>();
     Player.addComponent<ColliderComponent>("player");
+    // tile0.addComponent<TileComponent>(100, 100, 32, 32, TileComponent::TileType::water);
+    // tile0.addComponent<SpriteComponent>(TileComponent::path);
+    tile0.addComponent<NewComponent>(100,100,32,32,NewComponent::TileType:: water);
 }
-void Application ::handleEvents()
+void Game ::handleEvents()
 {
-    SDL_PollEvent(&Application::event);
-    switch (Application::event.type)
+    SDL_PollEvent(&Game::event);
+    switch (Game::event.type)
     {
     case SDL_QUIT:
         isRunning = false;
         break;
     case SDL_KEYDOWN:
-        
+
     default:
         break;
     }
 }
-void Application ::update()
+void Game ::update()
 {
     manager.refresh();
     manager.update();
@@ -54,19 +60,21 @@ void Application ::update()
         }
     }
 }
-void Application ::render()
+void Game ::render()
 {
     SDL_RenderClear(renderer);
     manager.draw();
     SDL_RenderPresent(renderer);
 }
-void Application ::clean()
+void Game ::clean()
 {
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
     SDL_Quit();
 }
-void Application:: AddTile(TileComponent::TileType id, int x, int y){
-    auto& tile(manager.addEntity());
-    tile.addComponent<TileComponent>(x,y,32,32,id);
+void Game::AddTile(TileComponent::TileType id, int x, int y)
+{
+    auto &tile(manager.addEntity());
+    tile.addComponent<TileComponent>(x, y, 32, 32, id);
 }
+#endif

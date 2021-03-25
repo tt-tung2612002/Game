@@ -1,14 +1,13 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
-// #include "application.hpp"
-#include "application.cpp"
+#include "game.cpp"
 int main(int argc, char *argv[])
 {
     const int FPS = 60;
     const int frameDelay = 1000 / FPS;
     Uint32 frameStart;
     int frameTime;
-    Application *game = new Application();
+    Game *game = new Game();
     game->init("hello", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,900,600, false);
     while (game->running())
     {

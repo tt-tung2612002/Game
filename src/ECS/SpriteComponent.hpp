@@ -1,8 +1,8 @@
 #pragma once
-#include "ECS.hpp"
-#include "TransformComponent.hpp"
+#ifndef _SPRITECOMPONENT_HPP_
+#define _SPRITECOMPONENT_HPP_
+#include "Components.h"
 #include "SDL2/SDL.h"
-#include "TextureManager.cpp"
 class SpriteComponent : public Component
 {
 private:
@@ -18,11 +18,15 @@ public:
     }
     SpriteComponent(const char *path)
     {
-        texture = TextureManager::loadTexture(path);
+        SDL_Surface *tempSurface = IMG_Load(path);
+        texture = SDL_CreateTextureFromSurface(Game::renderer, tempSurface);
+        SDL_FreeSurface(tempSurface);
     }
     void setTexture(const char *path)
     {
-        texture = TextureManager::loadTexture(path);
+        SDL_Surface *tempSurface = IMG_Load(path);
+        texture = SDL_CreateTextureFromSurface(Game::renderer, tempSurface);
+        SDL_FreeSurface(tempSurface);
     }
     void init() override
     {
@@ -49,6 +53,7 @@ public:
     }
     void draw() override
     {
-        TextureManager::Draw(texture, srcRect, destRect);
+        SDL_RenderCopy(Game::renderer,texture,&srcRect,&destRect);
     }
 };
+#endif

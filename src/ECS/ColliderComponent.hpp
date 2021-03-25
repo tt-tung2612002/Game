@@ -1,9 +1,9 @@
-#pragma once
+#ifndef _COLLIDERCOMPONENT_HPP_
+#define _COLLIDERCOMPONENT_HPP_
 
 #include <string>
 #include "SDL2/sdl.h"
-#include "ECS.hpp"
-
+#include "TransformComponent.hpp"
 class ColliderComponent : public Component
 {
 public:
@@ -27,3 +27,4 @@ public:
         collider.h = transform->height * transform->scale;
     }
 };
+#endif

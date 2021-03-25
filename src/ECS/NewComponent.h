@@ -1,21 +1,18 @@
-#ifndef _TILECOMPONENT_HPP_
-#define _TILECOMPONENT_HPP_
-// #include "SpriteComponent.hpp"
-#include "ECS.hpp"
-#include "TransformComponent.hpp"
-// #include "SDL2/SDL.h"
+#pragma once 
 
-class TileComponent : public Component
+#include "SpriteComponent.hpp"
+#include "TransformComponent.hpp"
+class NewComponent : public Component
 {
 public:
     enum class TileType{water,dirt,grass};
     TransformComponent *transform;
-    // SpriteComponent *sprite;
+    SpriteComponent *sprite;
     SDL_Rect tileRect;
     const char* path;
     TileType tileID;
-    TileComponent() = default;
-    TileComponent(int x, int y, int w, int h,TileType id)
+    NewComponent() = default;
+    NewComponent(int x, int y, int w, int h,TileType id)
     {
         tileRect.x = x;
         tileRect.y = y;
@@ -41,8 +38,7 @@ public:
     {
         entity->addComponent<TransformComponent>((double)tileRect.x,(double) tileRect.y, tileRect.w, tileRect.h, 1);
         transform = &entity->getComponent<TransformComponent>();
-        // entity->addComponent<SpriteComponent>(path);
-        // sprite = &entity->getComponent<SpriteComponent>();
+        entity->addComponent<SpriteComponent>(path);
+        sprite = &entity->getComponent<SpriteComponent>();
     }
 };
-#endif

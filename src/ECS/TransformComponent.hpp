@@ -1,4 +1,6 @@
 #pragma once
+#ifndef _TRANSFORMCOMPONENT_HPP_
+#define _TRANSFORMCOMPONENT_HPP_
 #include "../Vector2D.cpp"
 
 class TransformComponent : public Component
@@ -40,3 +42,4 @@ public:
         position.y += velocity.y * speed;
     }
 };
+#endif

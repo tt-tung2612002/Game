@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _ECS_HPP_
+#define _ECS_HPP_
 
 #include <iostream>
 #include <vector>
@@ -47,7 +48,6 @@ public:
     {
     }
 };
-
 class Entity
 {
 private:
@@ -131,3 +131,4 @@ public:
         return *e;
     }
 };
+#endif
