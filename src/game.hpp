@@ -6,9 +6,11 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
 #include <vector>
-#include "ECS/TileComponent.hpp"
-#include "ECS/ColliderComponent.hpp"
+// #include "ECS/TileComponent.hpp"
+// #include "ECS/ColliderComponent.hpp"
 #include "ECS/ECS.cpp"
+class ColliderComponent;
+class TileComponent;
 class Game
 {
 public:
@@ -22,9 +24,15 @@ public:
     void update();
     void render();
     void clean();
-    static void AddTile(TileComponent::TileType id,int x,int y);
     static bool isRunning;
     static SDL_Rect camera;
+    enum groupLabels : std::size_t
+	{
+		groupMap,
+		groupPlayers,
+		groupColliders,
+		groupProjectiles
+	};
     bool running()
     {
         return isRunning;

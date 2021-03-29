@@ -1,14 +1,19 @@
 #ifndef _COLLIDERCOMPONENT_HPP_
 #define _COLLIDERCOMPONENT_HPP_
-
+class ColliderComponent;
+// std::vector< ColliderComponent * >colliders;
 #include <string>
 #include "SDL2/sdl.h"
 #include "TransformComponent.hpp"
+
 class ColliderComponent : public Component
 {
 public:
     SDL_Rect collider;
     std :: string tag;
+    SDL_Texture *tex;
+    SDL_Rect srcR,destR;
+
     TransformComponent* transform;
     ColliderComponent(std:: string s){
         tag = s;
@@ -18,7 +23,7 @@ public:
             entity->addComponent<TransformComponent>();
         }
         transform = &entity->getComponent<TransformComponent>();
-        // Application::colliders.push_back(this);
+        Game::colliders.push_back(this);
     }
     void update() override{
         collider.x = static_cast<int> (transform->position.x);
@@ -27,4 +32,5 @@ public:
         collider.h = transform->height * transform->scale;
     }
 };
+
 #endif

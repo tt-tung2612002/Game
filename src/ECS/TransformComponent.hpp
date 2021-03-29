@@ -2,17 +2,17 @@
 #ifndef _TRANSFORMCOMPONENT_HPP_
 #define _TRANSFORMCOMPONENT_HPP_
 #include "../Vector2D.cpp"
-
+#include "ECS.hpp"
 class TransformComponent : public Component
 {
 public:
     Vector2D position;
     Vector2D velocity;
-    double height;
-    double width;
+    double height =32;
+    double width =32;
     int scale = 1;
     int speed = 3;
-
+    bool blocked = false;
     TransformComponent()
     {
         position.x = 0.0;
@@ -25,8 +25,8 @@ public:
     }
     TransformComponent(int sc)
     {
-        position.x = 400;
-        position.y = 320;
+        position.x = 0;
+        position.y = 0;
         scale = sc;
     }
     TransformComponent(double x, double y, double h, double w, double sc)
@@ -44,8 +44,8 @@ public:
     }
     void update() override
     {
-        position.x += velocity.x * speed;
-        position.y += velocity.y * speed;
+        position.x += static_cast<int>(velocity.x * speed);
+		position.y += static_cast<int>(velocity.y * speed);
     }
 };
 #endif
