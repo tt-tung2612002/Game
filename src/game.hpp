@@ -16,7 +16,6 @@ class Game
 public:
     static SDL_Event event;
     static SDL_Renderer *renderer;
-    static std:: vector<ColliderComponent*> colliders;
     Game();
     ~Game();
     void init(const char* title, int width, int height, bool fullscreen);

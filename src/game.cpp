@@ -3,16 +3,16 @@
 #define _GAME_CPP_
 #include "game.hpp"
 #include "ECS/Components.h"
-#include "Vector2D.hpp"
-#include "ECS/ColliderComponent.hpp"
 #include "map.cpp"
+#include "ECS/ColliderComponent.hpp"
+#include "Vector2D.hpp"
+#include "ECS/Collision.hpp"
 #include "TextureManager.h"
 
 Manager manager;
 SDL_Renderer *Game ::renderer = nullptr;
 SDL_Event Game::event;
 SDL_Rect Game::camera = {0, 0, 800, 640};
-std::vector<ColliderComponent *> Game::colliders;
 auto &Player(manager.addEntity());
 auto &tiles(manager.getGroup(Game::groupMap));
 auto &players(manager.getGroup(Game::groupPlayers));
@@ -45,8 +45,8 @@ void Game ::init(const char* title, int width, int height, bool fullscreen)
         isRunning = true;
     }
     isRunning = true;
-    Map *map = new Map();
-    map->loadMap("testmap.map", 25, 10);
+    Map *map = new Map("testbackground.png",5,32);
+    map->loadMap("testmap2.map", 25, 10);
     Player.addComponent<TransformComponent>(4);
     Player.addComponent<SpriteComponent>("player_anims.png", true);
     Player.addComponent<KeyboardController>();
@@ -69,10 +69,20 @@ void Game ::handleEvents()
 }
 void Game ::update()
 {
+    SDL_Rect playerCol = Player.getComponent<ColliderComponent>().collider;
+    Vector2D playerPos = Player.getComponent<TransformComponent>().position;
     manager.refresh();
     manager.update();
     camera.x = Player.getComponent<TransformComponent>().position.x - 400;
     camera.y = Player.getComponent<TransformComponent>().position.y - 320;
+    for (auto& c : colliders)
+	{
+		SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
+		if (Collision::AABB(cCol, playerCol))
+		{
+			Player.getComponent<TransformComponent>().position = playerPos;
+		}
+	}
     if (camera.x < 0)
         camera.x = 0;
     if (camera.y < 0)
