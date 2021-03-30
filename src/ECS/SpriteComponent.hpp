@@ -2,6 +2,7 @@
 #ifndef _SPRITECOMPONENT_HPP_
 #define _SPRITECOMPONENT_HPP_
 #include "Components.h"
+#include "../TextureManager.cpp"
 #include "SDL2/SDL.h"
 #include "Animation.h"
 #include <map>
@@ -33,21 +34,15 @@ public:
         animations.emplace("Idle",idle);
         animations.emplace("Walk",walk);
         Play("idle");
-        SDL_Surface *tempSurface = IMG_Load(path);
-        texture = SDL_CreateTextureFromSurface(Game::renderer, tempSurface);
-        SDL_FreeSurface(tempSurface);
+        texture = TextureManager::LoadTexture(path);
     }
     SpriteComponent(const char *path)
     {
-        SDL_Surface *tempSurface = IMG_Load(path);
-        texture = SDL_CreateTextureFromSurface(Game::renderer, tempSurface);
-        SDL_FreeSurface(tempSurface);
+        TextureManager::LoadTexture(path);
     }
     void setTexture(const char *path)
     {
-        SDL_Surface *tempSurface = IMG_Load(path);
-        texture = SDL_CreateTextureFromSurface(Game::renderer, tempSurface);
-        SDL_FreeSurface(tempSurface);
+        TextureManager::LoadTexture(path);
     }
     void init() override
     {
@@ -66,20 +61,12 @@ public:
         srcRect.y = animIndex * transform->height;
         destRect.x = static_cast<int> (transform->position.x) - Game::camera.x;
         destRect.y = static_cast<int> (transform->position.y) - Game::camera.y;
-        if (transform->width > 500 || transform->height > 500)
-        {
-            destRect.w = (transform->width) / 30 * transform->scale;
-            destRect.h = (transform->height) / 30 * transform->scale;
-        }
-        else
-        {
-            destRect.w = transform->width * transform->scale + 100;
-            destRect.h = transform->height * transform->scale + 100;
-        }
+        destRect.w = transform->width * transform->scale ;
+        destRect.h = transform->height * transform->scale ;
     }
     void draw() override
     {
-        SDL_RenderCopyEx(Game::renderer, texture, &srcRect, &destRect,NULL,NULL,spriteFlip);
+        TextureManager::Draw(texture, srcRect, destRect, spriteFlip);
     }
     void Play(const char* animName)
     {
