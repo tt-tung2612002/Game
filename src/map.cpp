@@ -7,21 +7,20 @@
 using namespace std;
 extern Manager manager;
 
-const char *mapfile = "testbackground.png";
-Map::Map(const char *mfp, int ms, int ts) : mapFilePath(mfp), mapScale(ms), tileSize(ts)
+const char *mapfile = "background.png";
+Map::Map(std::string tID, int ms, int ts) : texID(tID), mapScale(ms), tileSize(ts)
 {
     scaledSize = ms * ts;
 }
 int srcX, srcY;
-void convertToMatrix(string &s, int &srcX, int &srcY)
+void convertToMatrix(int n)
 {
-    int n = stoi(s);
-    srcX = n / 10;
-    srcY = n % 10 - 1;
+    n--;
+    srcY = (n / 10) * 32;
+    srcX = (n % 10) * 32;
 }
 void Map::loadMap(std::string path, int sizeX, int sizeY)
 {
-
     std::fstream mapFile;
     mapFile.open(path);
 
@@ -31,9 +30,7 @@ void Map::loadMap(std::string path, int sizeX, int sizeY)
         {
             int n;
             mapFile >> n;
-            n--;
-            srcY = (n / 10) * 32;
-            srcX = ((n % 10)) * 32;
+            convertToMatrix(n);
             AddTile(srcX, srcY, x * scaledSize, y * scaledSize);
         }
     }
@@ -43,7 +40,7 @@ void Map::loadMap(std::string path, int sizeX, int sizeY)
         {
             int n;
             mapFile >> n;
-            if (n==1)
+            if (n == 1)
             {
                 auto &tcol(manager.addEntity());
                 tcol.addComponent<ColliderComponent>("terrain", x * scaledSize, y * scaledSize, scaledSize);
@@ -57,6 +54,6 @@ void Map::loadMap(std::string path, int sizeX, int sizeY)
 void Map::AddTile(int srcX, int srcY, int xpos, int ypos)
 {
     auto &temp(manager.addEntity());
-    temp.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, mapFilePath);
+    temp.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, texID);
     temp.addGroup(Game::groupMap);
 }

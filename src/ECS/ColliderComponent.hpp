@@ -4,7 +4,7 @@
 #include <string>
 #include "SDL2/sdl.h"
 #include "TransformComponent.hpp"
-
+#include "../TextureManager.cpp"
 class ColliderComponent : public Component
 {
 public:
@@ -32,7 +32,7 @@ public:
         transform = &entity->getComponent<TransformComponent>();
       
         tex = TextureManager ::LoadTexture("collider.png");
-        srcR = {0, 0, 32, 32};
+        srcR = {0, 0, 900, 900};
         destR = {collider.x, collider.y, collider.w, collider.h};
     }
     void update() override

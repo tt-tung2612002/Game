@@ -1,8 +1,9 @@
+#pragma once
 #ifndef _KEYBOARDCONTROLLER_HPP_
 #define _KEYBOARDCONTROLLER_HPP_
+#include "../Game.hpp"
 #include "ECS.hpp"
-#include "TransformComponent.hpp"
-#include "SpriteComponent.hpp"
+#include "Components.h"
 class KeyboardController : public Component
 {
 public:

@@ -1,8 +1,8 @@
 #pragma once
 #ifndef _TRANSFORMCOMPONENT_HPP_
 #define _TRANSFORMCOMPONENT_HPP_
+#include "Components.h"
 #include "../Vector2D.cpp"
-#include "ECS.hpp"
 class TransformComponent : public Component
 {
 public:
@@ -25,8 +25,8 @@ public:
     }
     TransformComponent(int sc)
     {
-        position.x = 0;
-        position.y = 0;
+        position.x = 420;
+        position.y = 600;
         scale = sc;
     }
     TransformComponent(double x, double y, double h, double w, double sc)

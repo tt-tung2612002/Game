@@ -2,15 +2,12 @@
 #pragma once 
 #ifndef _GAME_HPP_
 #define  _GAME_HPP_
-
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
 #include <vector>
-// #include "ECS/TileComponent.hpp"
-// #include "ECS/ColliderComponent.hpp"
-#include "ECS/ECS.cpp"
+#include <iostream>
+class AssetManager;
 class ColliderComponent;
-class TileComponent;
 class Game
 {
 public:
@@ -25,6 +22,7 @@ public:
     void clean();
     static bool isRunning;
     static SDL_Rect camera;
+    static AssetManager* assets;
     enum groupLabels : std::size_t
 	{
 		groupMap,
@@ -39,6 +37,6 @@ public:
 private:
     int cnt =0;
     SDL_Window *window;
-    
+
 };
 #endif

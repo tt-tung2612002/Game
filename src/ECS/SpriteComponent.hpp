@@ -2,10 +2,11 @@
 #ifndef _SPRITECOMPONENT_HPP_
 #define _SPRITECOMPONENT_HPP_
 #include "Components.h"
-#include "../TextureManager.cpp"
+#include "../TextureManager.h"
 #include "SDL2/SDL.h"
 #include "Animation.h"
 #include <map>
+#include "../AssetManager.hpp"
 class SpriteComponent : public Component
 {
 private:
@@ -23,9 +24,8 @@ public:
     SpriteComponent() = default;
     ~SpriteComponent()
     {
-        SDL_DestroyTexture(texture);
     }
-    SpriteComponent(const char *path,bool isAnimated)
+    SpriteComponent(std:: string id,bool isAnimated)
     {
         
         animated = isAnimated;
@@ -34,15 +34,15 @@ public:
         animations.emplace("Idle",idle);
         animations.emplace("Walk",walk);
         Play("idle");
-        texture = TextureManager::LoadTexture(path);
+        setTexture(id);
     }
     SpriteComponent(const char *path)
     {
         TextureManager::LoadTexture(path);
     }
-    void setTexture(const char *path)
+    void setTexture(std ::string path)
     {
-        TextureManager::LoadTexture(path);
+        texture = Game::assets->GetTexture(path);
     }
     void init() override
     {

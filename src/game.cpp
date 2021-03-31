@@ -2,21 +2,23 @@
 #ifndef _GAME_CPP_
 #define _GAME_CPP_
 #include "game.hpp"
-#include "ECS/Components.h"
+#include "TextureManager.cpp"
 #include "map.cpp"
-#include "ECS/ColliderComponent.hpp"
+#include "ECS/Components.h"
 #include "Vector2D.hpp"
-#include "ECS/Collision.hpp"
-#include "TextureManager.h"
-
+#include "ECS/Collision.cpp"
+#include "AssetManager.cpp"
+#include "ECS/ECS.cpp"
 Manager manager;
-SDL_Renderer *Game ::renderer = nullptr;
+SDL_Renderer *Game ::renderer = nullptr;    
 SDL_Event Game::event;
 SDL_Rect Game::camera = {0, 0, 800, 640};
+AssetManager* Game::assets  = new AssetManager(&manager);
 auto &Player(manager.addEntity());
 auto &tiles(manager.getGroup(Game::groupMap));
 auto &players(manager.getGroup(Game::groupPlayers));
 auto &colliders(manager.getGroup(Game::groupColliders));
+auto &projectiles(manager.getGroup(Game::groupProjectiles));
 bool Game::isRunning = false;
 Game ::Game()
 {
@@ -44,14 +46,16 @@ void Game ::init(const char* title, int width, int height, bool fullscreen)
 
         isRunning = true;
     }
-    isRunning = true;
-    Map *map = new Map("testbackground.png",5,32);
-    map->loadMap("testmap2.map", 25, 10);
+    assets->AddTexture("terrain","background.png");
+    assets->AddTexture("player","player_anims.png");
+    Map *map = new Map("terrain",5,32);
+    map->loadMap("map.map", 25, 10);
     Player.addComponent<TransformComponent>(4);
-    Player.addComponent<SpriteComponent>("player_anims.png", true);
+    Player.addComponent<SpriteComponent>("player", true);
     Player.addComponent<KeyboardController>();
-    Player.addComponent<ColliderComponent>("player_idle");
+    Player.addComponent<ColliderComponent>("player");
     Player.addGroup(groupPlayers);
+    assets->CreateProjectile(Vector2D(600,600),200,2,"projectile");
 }
 void Game ::handleEvents()
 {
@@ -83,6 +87,11 @@ void Game ::update()
 			Player.getComponent<TransformComponent>().position = playerPos;
 		}
 	}
+    for (auto &p: projectiles){
+        if (Collision::AABB(Player.getComponent<ColliderComponent>().collider,p->getComponent<ColliderComponent>().collider)){
+            p->destroy();
+        }
+    }
     if (camera.x < 0)
         camera.x = 0;
     if (camera.y < 0)
@@ -107,7 +116,9 @@ void Game ::render()
     {
         p->draw();
     }
-
+    for (auto &p: projectiles){
+        p->draw();
+    }
     SDL_RenderPresent(renderer);
 }
 void Game ::clean()
