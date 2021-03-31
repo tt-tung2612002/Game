@@ -3,8 +3,8 @@
 #define _COLLIDERCOMPONENT_HPP_
 #include <string>
 #include "SDL2/sdl.h"
-#include "TransformComponent.hpp"
-#include "../TextureManager.cpp"
+#include "Components.h"
+#include "../TextureManager.h"
 class ColliderComponent : public Component
 {
 public:

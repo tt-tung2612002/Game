@@ -1,14 +1,14 @@
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_image.h"
 #include "game.cpp"
+Game *game = nullptr;
+
 int main(int argc, char *argv[])
 {
     const int FPS = 60;
     const int frameDelay = 1000 / FPS;
     Uint32 frameStart;
     int frameTime;
-    Game *game = new Game();
-    game->init("hello", 1920,1080,true);
+    game = new Game();
+    game->init("hello", 800,640,false);
     while (game->running())
     {
         frameStart = SDL_GetTicks();

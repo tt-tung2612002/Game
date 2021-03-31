@@ -1,10 +1,9 @@
 #pragma once
 #include <string>
-
-
 class Map
 {
 public:
+    Map(){}
     Map(std::string tID, int ms, int ts);
     ~Map();
     void loadMap(std::string path, int sizeX, int sizeY);
