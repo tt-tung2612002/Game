@@ -37,10 +37,14 @@ void Game::Game::init(const char *title, int width, int height, bool fullscreen)
 
         isRunning = true;
     }
+    if (TTF_Init() == -1)
+	{
+		std::cout << "Error : SDL_TTF" << std::endl;
+	}
     assets->AddTexture("terrain", "background.png");
     assets->AddTexture("player", "player_anims.png");
     assets->AddTexture("projectile", "projectile.png");
-    assets->AddFont("arial", "assets/arial.ttf", 16);
+    assets->AddFont("arial", "arial.ttf", 16);
     Map *map = new Map("terrain", 5, 32);
     map->loadMap("map.map", 25, 10);
     Player.addComponent<TransformComponent>(4);
@@ -50,11 +54,11 @@ void Game::Game::init(const char *title, int width, int height, bool fullscreen)
     Player.addGroup(groupPlayers);
     SDL_Color white = {255, 255, 255, 255};
     label.addComponent<UILabel>(10, 10, "Test String", "arial", white);
-    assets->CreateProjectile(Vector2D(200, 200), Vector2D(2, 1), 200, 1, "projectile");
-    assets->CreateProjectile(Vector2D(600, 200), Vector2D(2, 3), 200, 1, "projectile");
-    assets->CreateProjectile(Vector2D(600, 420), Vector2D(2, -1), 200, 1, "projectile");
-    assets->CreateProjectile(Vector2D(400, 300), Vector2D(2, -3), 200, 1, "projectile");
-    assets->CreateProjectile(Vector2D(600, 400), Vector2D(2, -1), 200, 1, "projectile");
+    assets->CreateProjectile(Vector2D(100,600), Vector2D(2, 1), 200, 1, "projectile");
+    assets->CreateProjectile(Vector2D(50,600), Vector2D(2, 1), 200, 1, "projectile");
+    assets->CreateProjectile(Vector2D(10,600), Vector2D(2, -1), 200, 1, "projectile");
+    assets->CreateProjectile(Vector2D(0,600), Vector2D(2, 1), 200, 1, "projectile");
+    assets->CreateProjectile(Vector2D(20,600), Vector2D(2, -1), 200, 1, "projectile");
 }
 auto &tiles(manager.getGroup(Game::groupMap));
 auto &players(manager.getGroup(Game::groupPlayers));
