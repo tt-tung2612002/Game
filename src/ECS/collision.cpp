@@ -1,4 +1,3 @@
-#pragma once
 #include "Collision.hpp"
 #include "ColliderComponent.hpp"
 bool Collision::AABB(const SDL_Rect& recA,const SDL_Rect& recB)

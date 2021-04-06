@@ -2,7 +2,7 @@
 #ifndef _TRANSFORMCOMPONENT_HPP_
 #define _TRANSFORMCOMPONENT_HPP_
 #include "Components.h"
-#include "../Vector2D.cpp"
+#include "../Vector2D.hpp"
 class TransformComponent : public Component
 {
 public:
@@ -15,8 +15,8 @@ public:
     bool blocked = false;
     TransformComponent()
     {
-        position.x = 0.0;
-        position.y = 0.0;
+        position.x = 420;
+        position.y = 600;
     }
     TransformComponent(double x_, double y_)
     {

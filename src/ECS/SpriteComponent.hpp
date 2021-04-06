@@ -22,23 +22,19 @@ public:
     std:: map<const char*, Animation> animations;
     SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
     SpriteComponent() = default;
-    ~SpriteComponent()
-    {
-    }
     SpriteComponent(std:: string id,bool isAnimated)
-    {
-        
+    {   
         animated = isAnimated;
         Animation idle = Animation(0,3,100);
         Animation walk = Animation(1,8,100); 
         animations.emplace("Idle",idle);
         animations.emplace("Walk",walk);
-        Play("idle");
+        Play("Idle");
         setTexture(id);
     }
-    SpriteComponent(const char *path)
+    SpriteComponent(std::string id)
     {
-        TextureManager::LoadTexture(path);
+        setTexture(id);
     }
     void setTexture(std ::string path)
     {

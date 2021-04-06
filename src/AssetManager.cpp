@@ -1,5 +1,5 @@
 #include "AssetManager.hpp"
-#include "ECS/Components.h"
+#include "SDL2/SDL_ttf.h"
 
 AssetManager::AssetManager(Manager *man) : manager(man)
 {
@@ -8,11 +8,11 @@ AssetManager::AssetManager(Manager *man) : manager(man)
 AssetManager::~AssetManager()
 {
 }
-void AssetManager::CreateProjectile(Vector2D pos,int range,int speed, std:: string id){
+void AssetManager::CreateProjectile(Vector2D pos,Vector2D velocity,int range,int speed, std:: string id){
     auto& projectile(manager->addEntity());
     projectile.addComponent<TransformComponent>(pos.x,pos.y,32,32,1);
-    projectile.addComponent<SpriteComponent>("projectile",false);
-    projectile.addComponent<ProjectileComponent>(range,speed);
+    projectile.addComponent<SpriteComponent>(id,false);
+    projectile.addComponent<ProjectileComponent>(range,speed,velocity);
     projectile.addComponent<ColliderComponent>("projectile");
     projectile.addGroup(Game::groupProjectiles);
 }
@@ -23,4 +23,13 @@ void AssetManager::AddTexture(std::string id, const char *path)
 SDL_Texture *AssetManager::GetTexture(std::string id)
 {
     return textures[id];
+}
+
+void AssetManager::AddFont(std::string id, std::string path, int fontSize)
+{
+	fonts.emplace(id, TTF_OpenFont(path.c_str(), fontSize));
+}
+TTF_Font* AssetManager::GetFont(std::string id)
+{
+	return fonts[id];
 }

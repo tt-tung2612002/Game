@@ -1,4 +1,3 @@
-#pragma once
 #include "Map.hpp"
 #include "Game.hpp"
 #include <fstream>

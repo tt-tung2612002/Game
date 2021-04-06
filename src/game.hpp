@@ -1,7 +1,5 @@
 
 #pragma once 
-#ifndef _GAME_HPP_
-#define  _GAME_HPP_
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
 #include <vector>
@@ -13,8 +11,8 @@ class Game
 public:
     static SDL_Event event;
     static SDL_Renderer *renderer;
-    Game();
-    ~Game();
+    Game(){}
+    ~Game(){}
     void init(const char* title, int width, int height, bool fullscreen);
     void handleEvents();
     void update();
@@ -39,4 +37,3 @@ private:
     SDL_Window *window;
 
 };
-#endif
