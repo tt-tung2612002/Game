@@ -8,11 +8,13 @@
 #include "ECS/Collision.cpp"
 #include "AssetManager.cpp"
 #include "ECS/ECS.cpp"
+#include <sstream>
 Manager manager;
 SDL_Renderer *Game ::renderer = nullptr;
 SDL_Event Game::event;
 SDL_Rect Game::camera = {0, 0, 800, 640};
 AssetManager *Game::assets = new AssetManager(&manager);
+auto &label(manager.addEntity());
 auto &Player(manager.addEntity());
 bool Game::isRunning = false;
 void Game::Game::init(const char *title, int width, int height, bool fullscreen)
@@ -50,10 +52,12 @@ void Game::Game::init(const char *title, int width, int height, bool fullscreen)
 	
 	label.addComponent<UILabel>(10, 10, "Test String", "arial", white);
 
+    SDL_Color white = {255, 255, 255, 255};
+    label.addComponent<UILabel>(10, 10, "Test String", "arial", white);
     assets->CreateProjectile(Vector2D(200, 200), Vector2D(2, 1), 200, 1, "projectile");
-    assets->CreateProjectile(Vector2D(600, 200), Vector2D(2, 3 ), 200, 1, "projectile");
+    assets->CreateProjectile(Vector2D(600, 200), Vector2D(2, 3), 200, 1, "projectile");
     assets->CreateProjectile(Vector2D(600, 420), Vector2D(2, -1), 200, 1, "projectile");
-    assets->CreateProjectile(Vector2D(400,300), Vector2D(2, -3), 200, 1, "projectile");
+    assets->CreateProjectile(Vector2D(400, 300), Vector2D(2, -3), 200, 1, "projectile");
     assets->CreateProjectile(Vector2D(600, 400), Vector2D(2, -1), 200, 1, "projectile");
 }
 auto &tiles(manager.getGroup(Game::groupMap));
@@ -78,6 +82,9 @@ void Game ::update()
 	Vector2D playerPos = Player.getComponent<TransformComponent>().position;
 
 	std::stringstream ss;
+	ss << "Player position: " << playerPos;
+	label.getComponent<UILabel>().SetLabelText(ss.str(), "arial");
+    std::stringstream ss;
 	ss << "Player position: " << playerPos;
 	label.getComponent<UILabel>().SetLabelText(ss.str(), "arial");
     manager.refresh();
@@ -128,6 +135,7 @@ void Game ::render()
     {
         p->draw();
     }
+    label.draw();
     SDL_RenderPresent(renderer);
 }
 void Game ::clean()
