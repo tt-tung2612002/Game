@@ -48,10 +48,6 @@ void Game::Game::init(const char *title, int width, int height, bool fullscreen)
     Player.addComponent<KeyboardController>();
     Player.addComponent<ColliderComponent>("player");
     Player.addGroup(groupPlayers);
-    SDL_Color white = { 255, 255, 255, 255 };
-	
-	label.addComponent<UILabel>(10, 10, "Test String", "arial", white);
-
     SDL_Color white = {255, 255, 255, 255};
     label.addComponent<UILabel>(10, 10, "Test String", "arial", white);
     assets->CreateProjectile(Vector2D(200, 200), Vector2D(2, 1), 200, 1, "projectile");
@@ -80,11 +76,7 @@ void Game ::update()
 {
     SDL_Rect playerCol = Player.getComponent<ColliderComponent>().collider;
 	Vector2D playerPos = Player.getComponent<TransformComponent>().position;
-
 	std::stringstream ss;
-	ss << "Player position: " << playerPos;
-	label.getComponent<UILabel>().SetLabelText(ss.str(), "arial");
-    std::stringstream ss;
 	ss << "Player position: " << playerPos;
 	label.getComponent<UILabel>().SetLabelText(ss.str(), "arial");
     manager.refresh();
