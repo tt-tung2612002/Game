@@ -27,8 +27,8 @@ public:
                 {
                     transform->velocity.y = transform->jumpHeight * -1;
                 }
-                sprite->Play("Walk");
-                onGround = false;
+                else break;
+                sprite->Play("Walk");     
                 break;
             case SDLK_s:
                 transform->velocity.y = 1;
@@ -49,12 +49,12 @@ public:
         }
         if (Game ::event.type == SDL_KEYUP)
         {
-
             switch (Game::event.key.keysym.sym)
             {
             case SDLK_w:
                 transform->velocity.y = 0;
                 sprite->Play("Idle");
+
                 break;
             case SDLK_s:
                 transform->velocity.y = 0;
@@ -76,7 +76,7 @@ public:
                 break;
             }
         }
-        if (onGround == false)
+            if (onGround == false)
         {
             transform->velocity.y += transform->accelGravity;
             if (transform->velocity.y > transform->maxGravity)

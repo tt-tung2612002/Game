@@ -9,11 +9,11 @@ class TransformComponent : public Component
 public:
     Vector2D position;
     Vector2D velocity;
-    int jumpHeight = 3;
+    int jumpHeight = 5;
     double height = 32;
     double width = 32;
     static const double constexpr accelGravity =1.0;
-    static const double constexpr maxGravity = 3.0;
+    static const double constexpr maxGravity = 5.0;
     int scale = 1;
     int speed = 3;
     TransformComponent()

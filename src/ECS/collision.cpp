@@ -2,7 +2,7 @@
 #include "ColliderComponent.hpp"
 bool Collision::AABB(const SDL_Rect& recA,const SDL_Rect& recB)
 {
-    if(recA.x + recA.w >= recB.x +1 and recB.x + recB.w >= recA.x +1 && recA.y + recA.h >= recB.y +1 && recB.y + recB.h >= recA.y +1)
+    if(recA.x + recA.w > recB.x  and recB.x + recB.w > recA.x and recA.y + recA.h > recB.y and recB.y + recB.h > recA.y )
         return true;
     return false;
 }
