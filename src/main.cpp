@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     Uint32 frameStart;
     int frameTime;
     game = new Game();
-    game->init("hello", 800,640,false);
+    game->init("hello", 1920,1080,true);
     while (game->running())
     {
         frameStart = SDL_GetTicks();

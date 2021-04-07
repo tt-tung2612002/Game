@@ -3,16 +3,19 @@
 #define _TRANSFORMCOMPONENT_HPP_
 #include "Components.h"
 #include "../Vector2D.hpp"
+extern bool onGround;
 class TransformComponent : public Component
 {
 public:
     Vector2D position;
     Vector2D velocity;
-    double height =32;
-    double width =32;
+    int jumpHeight = 3;
+    double height = 32;
+    double width = 32;
+    static const double constexpr accelGravity =1.0;
+    static const double constexpr maxGravity = 3.0;
     int scale = 1;
     int speed = 3;
-    bool blocked = false;
     TransformComponent()
     {
         position.x = 420;
@@ -42,10 +45,11 @@ public:
         velocity.x = 0;
         velocity.y = 0;
     }
-    void update() override
+    void update() override 
     {
+        
         position.x += static_cast<int>(velocity.x * speed);
-		position.y += static_cast<int>(velocity.y * speed);
+        position.y += static_cast<int>(velocity.y * speed);
     }
 };
 #endif

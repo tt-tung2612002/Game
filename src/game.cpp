@@ -9,10 +9,11 @@
 #include "AssetManager.cpp"
 #include "ECS/ECS.cpp"
 #include <sstream>
+bool onGround = false;
 Manager manager;
 SDL_Renderer *Game ::renderer = nullptr;
 SDL_Event Game::event;
-SDL_Rect Game::camera = {0, 0, 800, 640};
+SDL_Rect Game::camera = {0, 0, 800, 600};
 AssetManager *Game::assets = new AssetManager(&manager);
 auto &label(manager.addEntity());
 auto &Player(manager.addEntity());
@@ -47,7 +48,7 @@ void Game::Game::init(const char *title, int width, int height, bool fullscreen)
     assets->AddFont("arial", "arial.ttf", 16);
     Map *map = new Map("terrain", 5, 32);
     map->loadMap("map.map", 25, 10);
-    Player.addComponent<TransformComponent>(4);
+    Player.addComponent<TransformComponent>(200.0, 1315.0, 32 , 32, 4);
     Player.addComponent<SpriteComponent>("player", true);
     Player.addComponent<KeyboardController>();
     Player.addComponent<ColliderComponent>("player");
@@ -83,14 +84,21 @@ void Game ::update()
 	std::stringstream ss;
 	ss << "Player position: " << playerPos;
 	label.getComponent<UILabel>().SetLabelText(ss.str(), "arial");
+    
     manager.refresh();
     manager.update();
+   
     for (auto &c : colliders)
     {
         SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
         if (Collision::AABB(cCol, playerCol))
         {
+            if (cCol.y + cCol.h >= playerCol.y) onGround = true;
+            else onGround = false;
+            cout << onGround << std::endl;
             Player.getComponent<TransformComponent>().position = playerPos;
+            Player.getComponent<TransformComponent>().position.y -= (double)1;
+            // Player.getComponent<TransformComponent>().position.x += (double)1;
         }
     }
     for (auto &p : projectiles)
@@ -101,8 +109,8 @@ void Game ::update()
             p->destroy();
         }
     }
-    camera.x = Player.getComponent<TransformComponent>().position.x - 400;
-    camera.y = Player.getComponent<TransformComponent>().position.y - 320;
+    camera.x = Player.getComponent<TransformComponent>().position.x - 200;
+    camera.y = Player.getComponent<TransformComponent>().position.y - 160;
     if (camera.x < 0)
         camera.x = 0;
     if (camera.y < 0)
@@ -111,6 +119,7 @@ void Game ::update()
         camera.x = camera.w;
     if (camera.y > camera.h)
         camera.y = camera.h;
+
 }
 void Game ::render()
 {
